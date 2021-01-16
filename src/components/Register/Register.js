@@ -25,7 +25,7 @@ class Register extends React.Component{
 		this.setState({name: event.target.value});
 	}
 
-	onSubmitSignIn = () =>{
+	onSubmitRegister = () =>{
 		this.setState({ loading: true });
 		fetch(this.props.url + "/register", {
 			method: "POST",
@@ -76,7 +76,7 @@ class Register extends React.Component{
 					<div className="">
 						<input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
 						type="submit" value="Register" 
-						onClick={this.onSubmitSignIn}/>
+						onClick={this.onSubmitRegister}/>
 					</div>
 					}
 				</div>
