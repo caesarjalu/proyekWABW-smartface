@@ -1,12 +1,14 @@
 import React from 'react';
 import './Signin.css';
+import Loading from '../Loading/Loading';
 
 class Signin extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			signInEmail: "",
-			signInPassword: ""
+			signInPassword: "",
+			loading: false
 		};
 	}
 
@@ -19,6 +21,7 @@ class Signin extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
+		this.setState({ loading: true });
 		fetch(this.props.url + "/signin", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -36,13 +39,15 @@ class Signin extends React.Component {
 			else {
 				console.log("smth went wrong");
 			}
+			this.setState({ loading: false });
 		})
 		.catch(err => console.log("fetch err ", err));
 	}
 
 	render() {
+		let loading = this.state.loading;
 		return (
-			<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
+			<article className="br3 ba b--black-10 mt5 w-100 w-50-m w-25-l mw6 shadow-5 center">
 				<main className="pa4 black-80 card">
 					<div className="measure center">
 						<fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -56,14 +61,20 @@ class Signin extends React.Component {
 								<input onChange={this.onPasswordChange} className="b pa2 input-reset ba bg-transparent w-100" type="password" name="password" id="password" />
 							</div>
 						</fieldset>
+						{
+						loading ? <Loading />
+						:
+						<>
 						<div className="">
 							<input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
 								type="submit" value="Sign in"
 								onClick={this.onSubmitSignIn} />
 						</div>
 						<div className="lh-copy mt3">
-							<p onClick={() => this.props.onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
+							<a onClick={() => this.props.onRouteChange('register')} className="f6 link dim black db pointer">Register</a>
 						</div>
+						</>
+						}
 					</div>
 				</main>
 			</article>
